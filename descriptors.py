@@ -11,14 +11,36 @@ class lazy:
     """
     def __init__(self, function):
         self.function = function
-        self.name = function.__name__
+        self._name = function.__name__
 
     def __get__(self, obj, type=None) -> object:
-        obj.__dict__[self.name] = self.function(obj)
-        return obj.__dict__[self.name]
+        obj.__dict__[self._name] = self.function(obj)
+        return obj.__dict__[self._name]
+
+
+class NonZero:
+    def __init__(self, attr_name):
+        self.attr_name = attr_name
+        self._name = None
+
+    def __set_name__(self, owner, name):
+        self._name = name
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        return instance.__dict__[self._name]
+
+    def __set__(self, instance, value):
+        if value <= 0:
+            message = self._name + " must be greater than 0"
+            raise ValueError(message)
+        instance.__dict__[self._name] = value
 
 
 class Salary:
+
+    amount = NonZero("amount")
 
     def __init__(self, amount: float):
         self.amount = amount
@@ -53,3 +75,5 @@ if __name__ == '__main__':
     second_timer = end - start
 
     print(f'First tax call: {first_timer} - Second tax call: {second_timer}')
+
+    wrong_salary = Salary(0)
