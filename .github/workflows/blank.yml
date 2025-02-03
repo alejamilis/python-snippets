@@ -38,10 +38,11 @@ jobs:
       - name: Run my vars
         run: |
           echo "rds host is: $MI_VAR"
-          env | sort
+          echo "rds host is: $OTRA"
+          echo "rds host is: ${{ vars.OTRA }}"
         env:
           MI_VAR: ${{ vars.MI_VARIABLE }}
           ENVIRONMENT: ${{ inputs.environment }}
           MI_VARIABLE: ${{ vars.MI_VARIABLE }}
-          APP_DATABASE: ale-y-su-db
+          OTRA: ${{ vars.OTRA }}
           
