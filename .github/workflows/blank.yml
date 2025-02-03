@@ -15,11 +15,12 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    environment: test
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -40,9 +41,10 @@ jobs:
           echo "rds host is: $MI_VAR"
           echo "rds host is: $OTRA"
           echo "rds host is: ${{ vars.OTRA }}"
+          echo "env is: $ENVIRONMENT"
         env:
           MI_VAR: ${{ vars.MI_VARIABLE }}
-          ENVIRONMENT: ${{ inputs.environment }}
+          ENVIRONMENT: "test"
           MI_VARIABLE: ${{ vars.MI_VARIABLE }}
           OTRA: ${{ vars.OTRA }}
           
